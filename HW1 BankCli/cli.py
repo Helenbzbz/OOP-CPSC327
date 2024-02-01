@@ -26,7 +26,7 @@ class BankCli():
         if self.current_account == None:
             text_for_account = 'None'
         else:
-            text_for_account = f'{self.current_account.type}#{str(self.current_account.id).zfill(9)},\tbalance: ${self.current_account.balance:,.2f}'
+            text_for_account = f'{self.current_account.type}#{str(self.current_account.id).zfill(9)},\tbalance: ${round(self.current_account.balance, 2)}'
         print("--------------------------------")
         print(f"Currently selected account: {text_for_account}")
         print("Enter command\n"
@@ -59,14 +59,14 @@ class BankCli():
         self._bank.summary()
 
     def _select_account(self):
-        account_id = input("Enter account number\n>")
+2        account_id = input("Enter account number\n>")
         self.current_account = self._bank.select_account(int(account_id))
 
     def _add_transaction(self):
         amount = Decimal(input("Amount?\n>"))
         date_input = input("Date? (YYYY-MM-DD)\n>")
         date = datetime.strptime(date_input, "%Y-%m-%d").date()
-        self.current_account.transaction_record(amount, date)
+        self.current_account.add_transaction(amount, date)
 
     def _list_transactions(self):
         self.current_account.list_transactions()

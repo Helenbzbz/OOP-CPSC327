@@ -23,7 +23,7 @@ class Bank():
         """Summarize all accounts print their balance, account type, and account_id"""
         for account_id, account in self._accounts.items():
             account_title = f'{account.type}#{str(account_id).zfill(9)}'
-            print(f'{account_title},\tbalance: ${account.balance:,.2f}')
+            print(f'{account_title},\tbalance: ${round(account.balance, 2)}')
 
     def select_account(self, account_id):
         """Select an account by id"""

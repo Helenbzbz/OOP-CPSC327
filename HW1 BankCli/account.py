@@ -16,14 +16,14 @@ class Account():
     # Store the next available id for all new notes
     last_id = 0
 
-    def __init__(self, balance = Decimal(0), transactions = [], latest_transaction_date = None):
+    def __init__(self):
         """initialize a note with memo and optional
         space-separated tags. Automatically set the note's
         creation date and a unique id."""
 
-        self.balance = balance
-        self._transactions = transactions
-        self._latest_transaction_date = latest_transaction_date
+        self.balance =  Decimal(0)
+        self._transactions = []
+        self._latest_transaction_date = None
 
         Account.last_id += 1
         self.id = Account.last_id
@@ -64,7 +64,6 @@ class Account():
 
         ## Adjsut the interest to the last day of the month of latest transaction
         self.transaction_record(interest, latest_month_end)
-        self.balance += interest
 
         ## Deal with fee
         if self.balance < 100:
@@ -118,4 +117,3 @@ class SavingsAccount(Account):
         """Add a transaction to the list of transactions if it does not violate the balance limit and if it does not violate the frequency limit"""
         if self.check_balance_limit(amount) and self.check_frequency_limit(date):
             self.transaction_record(amount, date)
-
