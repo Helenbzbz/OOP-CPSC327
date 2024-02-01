@@ -26,7 +26,7 @@ class BankCli():
         if self.current_account == None:
             text_for_account = 'None'
         else:
-            text_for_account = f'{self.current_account.type}#{str(self.current_account.id).zfill(9)}, balance: ${self.current_account.balance:,.2f}'
+            text_for_account = f'{self.current_account.type}#{str(self.current_account.id).zfill(9)},\tbalance: ${self.current_account.balance:,.2f}'
         print("--------------------------------")
         print(f"Currently selected account: {text_for_account}")
         print("Enter command\n"
@@ -44,7 +44,7 @@ class BankCli():
         """Display the menu and respond to choices."""
         while True:
             self._display_menu()
-            choice = input("Enter an option: ")
+            choice = input(">")
             action = self._choices.get(choice)
             if action:
                 action()
@@ -52,19 +52,19 @@ class BankCli():
                 print("{0} is not a valid choice".format(choice))
 
     def _open_account(self):
-        type = input("Type of account? (checking/savings)\n")
+        type = input("Type of account? (checking/savings)\n>")
         self._bank.open_account(type)
 
     def _summary(self):
         self._bank.summary()
 
     def _select_account(self):
-        account_id = input("Enter account number\n")
+        account_id = input("Enter account number\n>")
         self.current_account = self._bank.select_account(int(account_id))
 
     def _add_transaction(self):
-        amount = Decimal(input("Amount?\n"))
-        date_input = input("Date? (YYYY-MM-DD)\n")
+        amount = Decimal(input("Amount?\n>"))
+        date_input = input("Date? (YYYY-MM-DD)\n>")
         date = datetime.strptime(date_input, "%Y-%m-%d").date()
         self.current_account.transaction_record(amount, date)
 

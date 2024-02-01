@@ -68,8 +68,7 @@ class Account():
 
         ## Deal with fee
         if self.balance < 100:
-            self.balance -= Decimal(5.44)
-            self.transaction_record(-5.44, latest_month_end)
+            self.transaction_record(Decimal(-5.44), latest_month_end)
 
 class CheckingAccount(Account):
     """This is a Checking Account. It is a child class of Account.
