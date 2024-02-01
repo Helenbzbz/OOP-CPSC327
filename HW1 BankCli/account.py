@@ -82,7 +82,7 @@ class CheckingAccount(Account):
         """Call the interest_and_fee_base method with interest rate of 0.08% and fee of $5.44"""
         self.interest_and_fee_base(Decimal(0.0008))
 
-    def add_transaction(self, date, amount):
+    def add_transaction(self, amount, date):
         """Add a transaction to the list of transactions if it does not violate the balance limit"""
         if self.check_balance_limit(amount):
             self.transaction_record(amount, date)
@@ -113,7 +113,7 @@ class SavingsAccount(Account):
                 return False
         return True
 
-    def add_transaction(self, date, amount):
+    def add_transaction(self, amount, date):
         """Add a transaction to the list of transactions if it does not violate the balance limit and if it does not violate the frequency limit"""
         if self.check_balance_limit(amount) and self.check_frequency_limit(date):
             self.transaction_record(amount, date)
