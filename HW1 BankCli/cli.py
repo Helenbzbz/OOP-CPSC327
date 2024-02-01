@@ -59,7 +59,7 @@ class BankCli():
         self._bank.summary()
 
     def _select_account(self):
-2        account_id = input("Enter account number\n>")
+        account_id = input("Enter account number\n>")
         self.current_account = self._bank.select_account(int(account_id))
 
     def _add_transaction(self):
