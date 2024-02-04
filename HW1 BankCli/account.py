@@ -1,6 +1,7 @@
 from datetime import timedelta
 import datetime
 from decimal import Decimal
+from transaction import Transaction
 
 class Account():
     """
@@ -28,10 +29,12 @@ class Account():
         Account.last_id += 1
         self.id = Account.last_id
 
-    def transaction_record(self, amount, date):
+    def transaction_record(self, amount, type, date):
         """Add a transaction with the amount and date to the list of transactions, sorted by date"""
-        self._transactions.append((amount, date))
-        self._transactions.sort(key=lambda x: x[1])
+        
+        new_transaction = Transaction(amount, type, date)
+        self._transactions.append(new_transaction)
+        self._transactions.sort(key=lambda x: x.date)
 
         if not self._latest_transaction_date:
             self._latest_transaction_date = date
@@ -43,7 +46,7 @@ class Account():
     def list_transactions(self):
         """List all transactions"""
         for transaction in self._transactions:
-            print(f'{transaction[1]}, ${transaction[0]:,.2f}')
+            print(f'{transaction.date}, ${transaction.amount:,.2f}')
 
     def check_balance_limit(self, amount):
         """Check if a new transaction will violate the balance limit"""
@@ -63,11 +66,11 @@ class Account():
         latest_month_end = next_month - timedelta(days=next_month.day)
 
         ## Adjsut the interest to the last day of the month of latest transaction
-        self.transaction_record(interest, latest_month_end)
+        self.transaction_record(interest, 0, latest_month_end)
 
         ## Deal with fee
         if self.balance < 100:
-            self.transaction_record(Decimal(-5.44), latest_month_end)
+            self.transaction_record(Decimal(-5.44),0, latest_month_end)
 
 class CheckingAccount(Account):
     """This is a Checking Account. It is a child class of Account.
@@ -85,7 +88,7 @@ class CheckingAccount(Account):
     def add_transaction(self, amount, date):
         """Add a transaction to the list of transactions if it does not violate the balance limit"""
         if self.check_balance_limit(amount):
-            self.transaction_record(amount, date)
+            self.transaction_record(amount, 1, date)
 
 class SavingsAccount(Account):
     """This is a Savings Account. It is a child class of Account.
@@ -105,9 +108,9 @@ class SavingsAccount(Account):
         """Check if a new transaction will violate the frequency limit, daily limit = 2, monthly limit = 5"""
         day_count, month_count = 0, 0
         for transaction in self._transactions:
-            if transaction[1] == date:
+            if transaction.date == date and transaction.type == 1:
                 day_count += 1
-            if transaction[1].month == date.month:
+            if transaction.date.month == date.month and transaction.type == 1:
                 month_count += 1
             if day_count >= 2 or month_count >= 5:
                 return False
@@ -116,4 +119,4 @@ class SavingsAccount(Account):
     def add_transaction(self, amount, date):
         """Add a transaction to the list of transactions if it does not violate the balance limit and if it does not violate the frequency limit"""
         if self.check_balance_limit(amount) and self.check_frequency_limit(date):
-            self.transaction_record(amount, date)
+            self.transaction_record(amount, 1, date)
