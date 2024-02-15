@@ -111,7 +111,7 @@ class BankCli():
         except AttributeError:
             print('This command requires that you first select an account.')
         except TransactionSequenceError:
-            print("Cannot apply interest and fees again in the month of {}.".format(self._current_account._latest_transaction_date.strftime("%B")))
+            print("Cannot apply interest and fees again in the month of {}.".format(self._current_account.latest_transaction_date.strftime("%B")))
         logger.debug("Triggered interest and fees")
                 
     def _save(self):
