@@ -18,12 +18,13 @@ class Bank():
         elif type == 'savings':
             account = SavingsAccount()
         self._accounts[account.id] = account
+        return account.id
         
     def summary(self):
         """Summarize all accounts print their balance, account type, and account_id"""
         for account_id, account in self._accounts.items():
             account_title = f'{account.type}#{str(account_id).zfill(9)}'
-            print(f'{account_title},\tbalance: ${round(account.balance, 2)}')
+            print(f'{account_title},\tbalance: ${account.balance:,.2f}')
 
     def select_account(self, account_id):
         """Select an account by id"""

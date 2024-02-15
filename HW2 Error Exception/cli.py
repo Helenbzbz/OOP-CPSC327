@@ -28,7 +28,7 @@ class BankCli():
         if self.current_account == None:
             text_for_account = 'None'
         else:
-            text_for_account = f'{self.current_account.type}#{str(self.current_account.id).zfill(9)},\tbalance: ${round(self.current_account.balance, 2)}'
+            text_for_account = f'{self.current_account.type}#{str(self.current_account.id).zfill(9)},\tbalance: ${self.current_account.balance:,.2f}'
         print("--------------------------------")
         print(f"Currently selected account: {text_for_account}")
         print("Enter command\n"
@@ -55,7 +55,8 @@ class BankCli():
 
     def _open_account(self):
         type = input("Type of account? (checking/savings)\n>")
-        self._bank.open_account(type)
+        account_id = self._bank.open_account(type)
+        logger.debug(f"Created account: {account_id}")
 
     def _summary(self):
         self._bank.summary()
@@ -86,7 +87,7 @@ class BankCli():
 
         ## Handle account not selected error
         try:
-            self.current_account.add_transaction(amount, date)
+            messages = self.current_account.add_transaction(amount, date)
         except AttributeError:
             print('This command requires that you first select an account.')
         except OverdrawError:
@@ -110,24 +111,30 @@ class BankCli():
         except AttributeError:
             print('This command requires that you first select an account.')
         except TransactionSequenceError:
-            print("Cannot apply interest and fees again in the month of {}.".format(self._latest_transaction_date.strftime("%B")))
+            print("Cannot apply interest and fees again in the month of {}.".format(self.current_account._latest_transaction_date.strftime("%B")))
+        logger.debug("Triggered interest and fees")
                 
     def _save(self):
-        with open("bank_save.pickle", "wb") as f:
+        with open("bank.pickle", "wb") as f:
             pickle.dump(self._bank, f)
+        logger.debug("Saved to bank.pickle")
 
     def _load(self):
-        with open("bank_save.pickle", "rb") as f:   
+        with open("bank.pickle", "rb") as f:   
             self._bank = pickle.load(f)
+        logger.debug("Loaded from bank.pickle")
 
     def _quit(self):
         sys.exit(0)
 
 if __name__ == "__main__":
+    # Generate Logger
+    logging.basicConfig(level=logging.DEBUG, filename='bank.log', format='%(asctime)s|%(levelname)s|%(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    logger = logging.getLogger('bank_application')
+
     try: 
         BankCli().run()
     except Exception as e:
         print("Sorry! Something unexpected happened. Check the logs or contact the developer for assistance.")
-        exception_message = repr(e)  
-        logging.error(f"{e.__class__.__name__}: {exception_message}")
-        sys.exit(1)
+        exception_message = repr(e)
+        logger.error(f"{e.__class__.__name__}: {exception_message}")

@@ -2,6 +2,9 @@ from datetime import timedelta
 import datetime
 from decimal import Decimal
 from transaction import Transaction
+import logging
+
+logger = logging.getLogger('bank_application')
 
 ## Define 3 exceptions -- OverdrawError, TransactionSequenceError, TransactionLimitError
 class OverdrawError(Exception):
@@ -62,6 +65,8 @@ class Account():
         self._transactions.sort(key=lambda x: x.date)
         self._latest_transaction_date = date
         self.balance += amount
+
+        logger.debug(f"Created transaction: {self.id}, {amount:,.6f}")
 
     def list_transactions(self):
         """List all transactions"""
