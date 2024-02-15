@@ -11,7 +11,7 @@ class BankCli():
 
     def __init__(self):
         self._bank = Bank()
-        self.current_account = None
+        self._current_account = None
         self._choices = {
             "1": self._open_account,
             "2": self._summary,
@@ -25,10 +25,10 @@ class BankCli():
         }
 
     def _display_menu(self):
-        if self.current_account == None:
+        if self._current_account == None:
             text_for_account = 'None'
         else:
-            text_for_account = f'{self.current_account.type}#{str(self.current_account.id).zfill(9)},\tbalance: ${self.current_account.balance:,.2f}'
+            text_for_account = f'{self._current_account.type}#{str(self._current_account.id).zfill(9)},\tbalance: ${self._current_account.balance:,.2f}'
         print("--------------------------------")
         print(f"Currently selected account: {text_for_account}")
         print("Enter command\n"
@@ -63,7 +63,7 @@ class BankCli():
 
     def _select_account(self):
         account_id = input("Enter account number\n>")
-        self.current_account = self._bank.select_account(int(account_id))
+        self._current_account = self._bank.select_account(int(account_id))
 
     def _add_transaction(self):
         ## Handle invalid dollar amount error and re-prompt
@@ -87,7 +87,7 @@ class BankCli():
 
         ## Handle account not selected error
         try:
-            messages = self.current_account.add_transaction(amount, date)
+            self._current_account.add_transaction(amount, date)
         except AttributeError:
             print('This command requires that you first select an account.')
         except OverdrawError:
@@ -95,23 +95,23 @@ class BankCli():
         except TransactionLimitError as e:
             print(e.message)
         except TransactionSequenceError:
-            print('New transactions must be from {} onward.'.format(self.current_account._latest_transaction_date.strftime("%Y-%m-%d")))
+            print('New transactions must be from {} onward.'.format(self._current_account.latest_transaction_date.strftime("%Y-%m-%d")))
 
     def _list_transactions(self):
         ## Handle account not selected error
         try:
-            self.current_account.list_transactions()
+            self._current_account.list_transactions()
         except AttributeError:
             print('This command requires that you first select an account.')
 
     def _interest_and_fee(self):
         ## Handle account not selected error
         try:
-            self.current_account.interest_and_fee()
+            self._current_account.interest_and_fee()
         except AttributeError:
             print('This command requires that you first select an account.')
         except TransactionSequenceError:
-            print("Cannot apply interest and fees again in the month of {}.".format(self.current_account._latest_transaction_date.strftime("%B")))
+            print("Cannot apply interest and fees again in the month of {}.".format(self._current_account._latest_transaction_date.strftime("%B")))
         logger.debug("Triggered interest and fees")
                 
     def _save(self):

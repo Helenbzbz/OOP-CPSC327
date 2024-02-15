@@ -20,7 +20,7 @@ class TransactionSequenceError(Exception):
 class TransactionLimitError(Exception):
     """Exception raised for exceeding transaction limits on SavingsAccounts."""
     def __init__(self, limit_type):
-        self.limit_type = limit_type
+        self._limit_type = limit_type
         if limit_type == "daily":
             self.message = "This transaction could not be completed because this account already has 2 transactions in this day."
         if limit_type == "monthly":
@@ -48,7 +48,7 @@ class Account():
 
         self.balance =  Decimal(0)
         self._transactions = []
-        self._latest_transaction_date = None
+        self.latest_transaction_date = None
 
         Account.last_id += 1
         self.id = Account.last_id
@@ -57,13 +57,13 @@ class Account():
         """Add a transaction with the amount and date to the list of transactions, sorted by date"""
         
         ## Handle Transaction Sequence Error
-        if self._latest_transaction_date and date < self._latest_transaction_date:
+        if self.latest_transaction_date and date < self.latest_transaction_date:
             raise TransactionSequenceError
         
         new_transaction = Transaction(amount, type, date)
         self._transactions.append(new_transaction)
         self._transactions.sort(key=lambda x: x.date)
-        self._latest_transaction_date = date
+        self.latest_transaction_date = date
         self.balance += amount
 
         logger.debug(f"Created transaction: {self.id}, {amount:,.6f}")
@@ -84,14 +84,14 @@ class Account():
         Add a fee: $5.44 if balance is less than 100"""
 
         ## if no transaction has been made, return
-        if not self._latest_transaction_date:
+        if not self.latest_transaction_date:
             return
 
         ## Deal with inetrest
         interest = self.balance * interest_rate
 
         ## Find the last day of the month of latest transaction
-        next_month = self._latest_transaction_date.replace(day=28) + timedelta(days=4) 
+        next_month = self.latest_transaction_date.replace(day=28) + timedelta(days=4) 
         latest_month_end = next_month - timedelta(days=next_month.day)
 
         ## Test for Transaction Sequence Error
