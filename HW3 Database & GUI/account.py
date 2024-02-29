@@ -4,7 +4,8 @@ from decimal import Decimal
 from transaction import Transaction
 import logging
 
-
+from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
 
 logger = logging.getLogger('bank_application')
 
