@@ -1,18 +1,2 @@
-2024-02-14 23:33:56,939|DEBUG|Created account: 1
-2024-02-14 23:34:16,688|DEBUG|Saved to bank.pickle
-2024-02-14 23:34:25,475|ERROR|UnpicklingError: UnpicklingError("invalid load key, '\\xef'.")
-2024-02-14 23:40:18,635|ERROR|UnpicklingError: UnpicklingError("invalid load key, '\\xef'.")
-2024-02-14 23:40:52,746|ERROR|UnpicklingError: UnpicklingError("invalid load key, '\\xef'.")
-2024-02-14 23:41:02,760|ERROR|FileNotFoundError: FileNotFoundError(2, 'No such file or directory')
-2024-02-14 23:41:08,059|DEBUG|Saved to bank.pickle
-2024-02-14 23:41:09,060|DEBUG|Loaded from bank.pickle
-2024-02-14 23:52:41|DEBUG|Created account: 1
-2024-02-14 23:52:48|DEBUG|Created transaction: 1, 100
-2024-02-14 23:52:50|DEBUG|Created transaction: 1, 0.08000000000000000383373888191
-2024-02-14 23:52:50|DEBUG|Triggered interest and fees
-2024-02-14 23:53:48|DEBUG|Triggered interest and fees
-2024-02-14 23:53:55|DEBUG|Created transaction: 1, 100
-2024-02-14 23:53:56|DEBUG|Created transaction: 1, 0.1600640000000000076736117460
-2024-02-14 23:53:56|DEBUG|Triggered interest and fees
-2024-02-14 23:54:12|DEBUG|Loaded from bank.pickle
-2024-02-14 23:54:16|ERROR|KeyError: KeyError(1)
+2024-03-01 12:56:15|DEBUG|Created account: 1
+2024-03-01 12:56:15|DEBUG|Saved to bank.db
