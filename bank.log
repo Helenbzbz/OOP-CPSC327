@@ -1,0 +1,54 @@
+2024-03-02 17:33:06|DEBUG|Created account: 1
+2024-03-02 17:33:06|DEBUG|Saved to bank.db
+2024-03-02 17:33:08|DEBUG|Created account: 2
+2024-03-02 17:33:08|DEBUG|Saved to bank.db
+2024-03-02 17:33:11|DEBUG|Created account: 3
+2024-03-02 17:33:11|DEBUG|Saved to bank.db
+2024-03-02 17:33:23|DEBUG|Created transaction: 1, 2001
+2024-03-02 17:33:23|DEBUG|Saved to bank.db
+2024-03-02 17:33:25|DEBUG|Created transaction: 1, 1.60080000000000
+2024-03-02 17:33:25|DEBUG|Triggered interest and fees
+2024-03-02 17:33:25|DEBUG|Saved to bank.db
+2024-03-02 17:33:28|ERROR|AttributeError: "'BankGUI' object has no attribute 'run'"
+2024-03-02 17:35:08|DEBUG|Loaded from bank.db
+2024-03-02 17:35:30|ERROR|AttributeError: "'BankGUI' object has no attribute 'run'"
+2024-03-02 17:35:32|DEBUG|Loaded from bank.db
+2024-03-02 17:35:40|ERROR|AttributeError: "'BankGUI' object has no attribute 'run'"
+2024-03-02 17:37:43|DEBUG|Loaded from bank.db
+2024-03-02 17:37:45|ERROR|AttributeError: "'BankGUI' object has no attribute 'run'"
+2024-03-02 17:38:19|DEBUG|Loaded from bank.db
+2024-03-02 17:38:50|ERROR|AttributeError: "'BankGUI' object has no attribute 'run'"
+2024-03-02 17:39:04|DEBUG|Loaded from bank.db
+2024-03-02 17:39:30|ERROR|AttributeError: "'BankGUI' object has no attribute 'run'"
+2024-03-02 17:39:34|DEBUG|Loaded from bank.db
+2024-03-02 17:39:59|ERROR|AttributeError: "'BankGUI' object has no attribute 'run'"
+2024-03-02 17:40:14|DEBUG|Loaded from bank.db
+2024-03-02 17:40:47|DEBUG|Loaded from bank.db
+2024-03-02 17:42:38|DEBUG|Loaded from bank.db
+2024-03-02 17:42:46|DEBUG|Created transaction: 1, 2001
+2024-03-02 17:43:10|DEBUG|Loaded from bank.db
+2024-03-02 17:43:23|DEBUG|Loaded from bank.db
+2024-03-02 17:43:30|DEBUG|Created transaction: 1, 200
+2024-03-02 17:43:30|DEBUG|Saved to bank.db
+2024-03-02 17:54:29|DEBUG|Loaded from bank.db
+2024-03-02 17:54:34|DEBUG|Created transaction: 1, 2123
+2024-03-02 17:54:34|DEBUG|Saved to bank.db
+2024-03-02 17:56:02|DEBUG|Loaded from bank.db
+2024-03-02 17:58:09|DEBUG|Loaded from bank.db
+2024-03-02 17:58:25|DEBUG|Created transaction: 1, 200
+2024-03-02 17:58:25|DEBUG|Saved to bank.db
+2024-03-02 17:58:37|DEBUG|Created transaction: 1, 2001
+2024-03-02 17:58:37|DEBUG|Saved to bank.db
+2024-03-02 17:58:59|DEBUG|Loaded from bank.db
+2024-03-02 17:59:05|DEBUG|Created transaction: 2, 2321
+2024-03-02 17:59:05|DEBUG|Saved to bank.db
+2024-03-02 17:59:06|ERROR|AttributeError: "'BankGUI' object has no attribute 'run'"
+2024-03-02 18:01:25|DEBUG|Loaded from bank.db
+2024-03-02 18:01:29|ERROR|ValueError: ValueError('max() iterable argument is empty')
+2024-03-02 18:02:05|DEBUG|Loaded from bank.db
+2024-03-02 18:02:15|ERROR|AttributeError: "'BankGUI' object has no attribute 'run'"
+2024-03-02 18:02:43|DEBUG|Loaded from bank.db
+2024-03-02 18:02:45|DEBUG|Created transaction: 1, 5.22128064000000
+2024-03-02 18:02:45|DEBUG|Triggered interest and fees
+2024-03-02 18:02:45|DEBUG|Saved to bank.db
+2024-03-02 18:02:49|ERROR|ValueError: ValueError('max() iterable argument is empty')

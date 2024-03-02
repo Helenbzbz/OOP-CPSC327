@@ -117,7 +117,6 @@ Enter command
         self._session.commit()
         logging.debug("Saved to bank.db")
 
-
     def _select(self):
         num = int(input("Enter account number\n>"))
         self._selected_account = self._bank.get_account(num)
