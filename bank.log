@@ -52,3 +52,10 @@
 2024-03-02 18:02:45|DEBUG|Triggered interest and fees
 2024-03-02 18:02:45|DEBUG|Saved to bank.db
 2024-03-02 18:02:49|ERROR|ValueError: ValueError('max() iterable argument is empty')
+2024-03-02 18:04:00|DEBUG|Loaded from bank.db
+2024-03-02 18:04:07|DEBUG|Created transaction: 1, 2321
+2024-03-02 18:04:08|DEBUG|Saved to bank.db
+2024-03-02 18:04:18|DEBUG|Created transaction: 1, 213
+2024-03-02 18:04:21|DEBUG|Saved to bank.db
+2024-03-02 18:05:29|DEBUG|Loaded from bank.db
+2024-03-02 18:05:38|DEBUG|Created transaction: 1, 123

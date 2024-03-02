@@ -215,6 +215,12 @@ class BankGUI:
         ## Add the transaction to the account
         try:
             self._selected_account.add_transaction(amount, date, self._session)
+            self._session.commit()
+            logging.debug("Saved to bank.db")
+            ## Distroy the popup
+            self.popup.destroy()
+            ## Update the listbox and label and show the transactions
+            self._show_accounts()
         except OverdrawError:
             messagebox.showerror("Insufficient account balance.", message="This transaction could not be completed due to an insufficient account balance.")
         except TransactionLimitError as ex:
@@ -222,13 +228,7 @@ class BankGUI:
         except TransactionSequenceError as ex:
             messagebox.showerror("Transaction Sequence Error", message=f"New transactions must be from {ex.latest_date} onward.")
 
-        self._session.commit()
-        logging.debug("Saved to bank.db")
-
-        ## Distroy the popup
-        self.popup.destroy()
-        ## Update the listbox and label and show the transactions
-        self._show_accounts()
+        
         
     def _interests_and_fees(self):
         """Apply interest and fees to the selected account and save it to the database."""
@@ -251,6 +251,6 @@ if __name__ == "__main__":
     engine = sqlalchemy.create_engine("sqlite:///bank.db")
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
-    BankGUI().run()
+    BankGUI()
 
 
