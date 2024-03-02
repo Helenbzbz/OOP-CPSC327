@@ -147,9 +147,8 @@ if __name__ == "__main__":
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)
 
-    BankCLI().run()
-    # try:
-    #     BankCLI().run()
-    # except Exception as e:
-    #     print("Sorry! Something unexpected happened. Check the logs or contact the developer for assistance.")
-    #     logging.error(str(e.__class__.__name__) + ": " + repr(str(e)))
+    try:
+        BankCLI().run()
+    except Exception as e:
+        print("Sorry! Something unexpected happened. Check the logs or contact the developer for assistance.")
+        logging.error(str(e.__class__.__name__) + ": " + repr(str(e)))
