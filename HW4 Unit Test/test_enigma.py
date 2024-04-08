@@ -8,7 +8,7 @@ class TestRotor(unittest.TestCase):
         rotor = Rotor('I', 'A')
         self.assertEqual(rotor.rotor_num, 'I')
         self.assertEqual(rotor.window, 'A')
-        self.assertEqual(rotor.offset, 0)  # A is the 0th letter in the alphabet.
+        self.assertEqual(rotor.offset, 0)
         self.assertEqual(rotor.wiring, ROTOR_WIRINGS['I'])
         self.assertEqual(rotor.notch, ROTOR_NOTCHES['I'])
 
