@@ -171,3 +171,5 @@ class Plugboard():
                 for swap in new_swaps:
                     self.swaps[swap[0]] = swap[1]
                     self.swaps[swap[1]] = swap[0]
+
+    
