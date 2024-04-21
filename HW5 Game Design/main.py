@@ -35,7 +35,7 @@ class Game():
     """
     def __init__(self, player1_name = 'white', player2_name = 'blue', player1_type = 'human', player2_type = 'human', show_score=False, undo_redo=False):
         self.observer = Observer()
-        self.continue_game = True
+        self._continue_game = True
         self.undo_redo = undo_redo
         self.history = History()
 
@@ -100,7 +100,7 @@ class Game():
         """
         Main game loop, will continue until the game is over
         """
-        while self.continue_game:
+        while self._continue_game:
             self.observer.update(self.game_board)
 
             ## if current_player.show_score, then add score to the update message
@@ -112,15 +112,15 @@ class Game():
                 self.observer.update(f"Turn: {self.turn}, {self.current_player}")
             
 
-            self.check_game_end()
+            self._check_game_end()
             ## Reset the game if the game is over and prompt the user
-            if not self.continue_game:
+            if not self._continue_game:
                 reset = input("Play again?\n")
                 if reset == 'yes':
                     self.game_board = Board()
                     self._initialize_pieces()
                     self.turn = 1
-                    self.continue_game = True
+                    self._continue_game = True
                     self.current_player = self.player1
                 else:
                     break
@@ -162,18 +162,18 @@ class Game():
         else:
             self.current_player = self.player1
 
-    def check_game_end(self):
+    def _check_game_end(self):
         """
         Check if the game has ended.
         """
         if not self.current_player.can_player_move(self.game_board):
             self.observer.update(f"{self.current_player.color} cannot move")
-            self.continue_game = False
+            self._continue_game = False
 
         winner = self.game_board.check_winner()
         if winner is not None:
             self.observer.update(f"{winner.color} has won")
-            self.continue_game = False
+            self._continue_game = False
 
 def parse_args():
     """
