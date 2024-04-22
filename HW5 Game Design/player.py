@@ -17,11 +17,19 @@ class Player:
         self.color = color
         self.pieces = []
         self.observer = Observer()
-        self._directions = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
+        self.directions = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
         self.show_score = show_score
 
     def __str__(self):
         return f'{self.color} ({self.pieces[0]}{self.pieces[1]})'
+    
+    def _return_piece(self, color):
+        """
+        Return the piece object based on the color
+        """
+        for piece in self.pieces:
+            if piece.color == color:
+                return piece
     
     def check_if_own_piece(self, piece):
         """
@@ -115,7 +123,7 @@ class HumanPlayer(Player):
         while not valid_move:
             ## Takes input about which direction to move and check if it is valid
             move_direction = input("Select a direction to move (n, ne, e, se, s, sw, w, nw)\n")
-            if move_direction not in self._directions:
+            if move_direction not in self.directions:
                 self.observer.update("Not a valid direction")
                 continue
             if not move_piece.check_if_can_move(move_direction, board):
@@ -130,7 +138,7 @@ class HumanPlayer(Player):
         while not valid_build:
             ## Takes input about which direction to build and check if it is valid
             build_direction = input("Select a direction to build (n, ne, e, se, s, sw, w, nw)\n")
-            if build_direction not in self._directions:
+            if build_direction not in self.directions:
                 self.observer.update("Not a valid direction")
                 continue
             if not move_piece.check_if_can_build(build_direction, board):
