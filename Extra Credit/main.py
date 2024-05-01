@@ -1,24 +1,15 @@
 """
-Requirements
-1. 5x5 board (Singleton Pattern to ensure only one board (DONE)
-2. 2 human players: 
-    a. A, B, Y, Z; else print 'Not a valid worker' (DONE)
-    b. If entered opponent worker, print 'That is not your worker' (DONE)
-    c. n, ne, e, se, s, sw, w, nw; else print 'Not a valid direction' (DONE)
-    d. If invalid direction, 'Cannot move <direction>' (DONE)
-    --> Repeat prompt until valid input
-    e. Print the mover, move direction, and build direction (DONE)
-    
-3. Check if game has eneded, if a player is on the third level (DONE)
-4. Check if current player can move through enumerating all possible moves (DONE)
-5. If game ended, print the winner, if a worker can't move, print 'That worker cannot move' (DONE)
---> Observer Pattern will contains the above 3 requirements
-
-6. 2 Random Computer Players (DONE)
-7. 2 Heuristic Players (DONE)
-8. Undo/Redo Functions --> memento pattern
-
---> All players will be derived from the Player class, which is Template Pattern (DONE)
+1. Display the board as a grid of buttons
+    - The buildings and workers.
+    - The levels of the building should be shown visually and the worker should be shown standing on the building. 
+2. Include buttons corresponding to next/undo/redo if enabled.
+3. Human players should be able to select a worker to move by clicking on one of their spaces.
+4. Only allow the player to click on a worker that has legal moves.
+5. Available moves and builds should be highlighted visually on the board.
+6. The user should select their move and build by clicking on the highlighted spaces.
+7. If enabled the heuristic board score should be shown somewhere in the GUI and updated each turn.
+8. The winner of the game should be indicated visually in the GUI.
+9. GUI presents option to play again and resets everything properly.
 """
 
 from board import Board
@@ -27,7 +18,16 @@ from piece import Piece
 from observer import Observer
 from history import History
 
+import tkinter as tk
+from tkinter import messagebox
+
 import argparse
+
+class SantoriniGUI():
+    """
+    GUI for the game
+    """
+
 
 class Game():
     """
