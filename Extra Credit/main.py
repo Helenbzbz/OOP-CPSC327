@@ -12,6 +12,12 @@
 9. GUI presents option to play again and resets everything properly.
 """
 
+"""
+References:
+The img folder contains the images for the pieces and the buildings, which were taken from the following link:
+https://github.com/tjl0005/Santorini-Boardgame/tree/main/GUI%20Version/assets
+"""
+
 from board import Board
 from player import HumanPlayer, RandomComputerPlayer, HeuristicComputerPlayer 
 from piece import Piece
@@ -27,7 +33,30 @@ class SantoriniGUI():
     """
     GUI for the game
     """
+    def __init__(self, game):
+        self.game = game
+        self.root = tk.Tk()
+        self.root.title("Santorini")
+        self.root.geometry("500x500")
+        self.board_buttons = [[None for _ in range(5)] for _ in range(5)]
+        self.refresh_gui()
+        
+    def refresh_gui(self):
+        """
+        Refresh the GUI, with img/game_background.png as the background
+        On top, generate the buttons for the board, each button corresponding to the correct level of the building
+        """
+        self.background_image = tk.PhotoImage(file="img/game_background.png")
+        self.background_label = tk.Label(self.root, image=self.background_image)
+        self.background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
+        for i in range(5):
+            for j in range(5):
+                self.board_buttons[i][j] = tk.Button(self.root, text=f"{i},{j}", command=lambda i=i, j=j: self.on_button_click(i, j))
+                self.board_buttons[i][j].place(x=100 + 50*j, y=100 + 50*i, width=50, height=50)
+                self.board_buttons[i][j].config(bg='white')
+
+        self.root.mainloop()
 
 class Game():
     """
@@ -202,9 +231,10 @@ def parse_args():
     return args
 
 if __name__ == '__main__':
-    args = parse_args()
-    game = Game(player1_type=args.player1, 
-                player2_type=args.player2, 
-                undo_redo=args.undo_redo, 
-                show_score=args.show_score)
+    # args = parse_args()
+    game = Game(player1_type = 'human', 
+                player2_type = 'human', 
+                undo_redo = 'off', 
+                show_score= 'off')
+    gui = SantoriniGUI(game)
     game.main_loop()
