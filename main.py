@@ -152,8 +152,8 @@ class SantoriniGUI():
 
     def _refresh_board_for_action(self, piece, action):
         """
-        Refresh the board after a piece is selected to make all direction not possible for move 'img/no.png' 
-        Make all the possible moves clickable with img/l{level}.png
+        Refresh the board after a piece is selected to make all direction not possible for move 'no.png' 
+        Make all the possible moves clickable with l{level}.png
         """
         self._destroy_board()
 
@@ -166,7 +166,7 @@ class SantoriniGUI():
             for tile in row:
                 ## if tile is in the possible move, then create a clickable tile ## resize to 100x100
                 if (tile.row - piece.row, tile.col - piece.col) in [self.game.direction_dic[direction] for direction in directions]:
-                    img = tk.PhotoImage(file=f"img/l{tile.level}.png")
+                    img = tk.PhotoImage(file=f"l{tile.level}.png")
                     img.config(width=95, height=95)
                     direction = self.game.reverse_direction_dic[(tile.row - piece.row, tile.col - piece.col)]
 
@@ -179,7 +179,7 @@ class SantoriniGUI():
                     button.image = img
                     button.grid(row=tile.row+2, column=tile.col)
                 else:
-                    img = tk.PhotoImage(file="img/no.png")
+                    img = tk.PhotoImage(file="no.png")
                     img.config(width=100, height=100)
                     label = tk.Label(self.root, image=img)
                     label.image = img
@@ -224,10 +224,10 @@ class SantoriniGUI():
 
     def _create_tile_for_background(self, tile):
         """
-        Create a tile on the board, all tile as labels with img/l{level}.png
+        Create a tile on the board, all tile as labels with l{level}.png
         ## Size of the image is 100x100, placed at corresponding row and column
         """
-        img = tk.PhotoImage(file=f"img/l{tile.level}.png")
+        img = tk.PhotoImage(file=f"l{tile.level}.png")
         img.config(width=100, height=100)
         label = tk.Label(self.root, image=img)
         label.image = img
