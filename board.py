@@ -10,6 +10,7 @@ class Tile:
         self.col = col
         self.level = level
         self.piece = piece
+        self.clickable = False
 
     def __str__(self):
         piece = self.piece if self.piece else ' '
@@ -34,18 +35,6 @@ class Board:
 
     def __init__(self):
         self.grid = [[Tile(row, col) for col in range(5)] for row in range(5)]
-
-    def __str__(self):
-        """
-        set the board, do not start new line for the last row
-        """
-        board_str = '+--+--+--+--+--+\n'
-        for row in self.grid:
-            row_str = '|'
-            for tile in row:
-                row_str += str(tile) + '|'
-            board_str += row_str + '\n' + '+--+--+--+--+--+\n'
-        return board_str[:-1]
     
     def check_winner(self):
         """

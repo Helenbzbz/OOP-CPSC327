@@ -9,20 +9,18 @@ All players will be derived from the Player class, which is Template Pattern
 3. Computer Players Heuristic Version, have a generated move and build
 """
 
-from observer import Observer
 import random
 
 class Player:
     def __init__(self, color, show_score=False):
         self.color = color
         self.pieces = []
-        self.observer = Observer()
         self.directions = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
         self.show_score = show_score
-
+    
     def __str__(self):
         return f'{self.color} ({self.pieces[0]}{self.pieces[1]})'
-    
+
     def _return_piece(self, color):
         """
         Return the piece object based on the color
@@ -45,12 +43,6 @@ class Player:
         Check if the piece can move in the given direction
         """
         return self.pieces[0].enumerate_all_moves(board) or self.pieces[1].enumerate_all_moves(board)
-
-    def player_turn(self, board, opponent, history, turn):
-        """
-        This is the move and build function for the player that will be implemented by the subclasses
-        """
-        raise NotImplementedError("This method should be implemented by subclasses.")
     
     def _calculate_height_score(self, board):
         """
@@ -102,57 +94,6 @@ class HumanPlayer(Player):
         super().__init__(color, show_score=show_score)
         self.type = 'human'
 
-    def player_turn(self, board, opponent, history, turn):
-        valid_worker= False
-        while not valid_worker:
-            ## Takes input about which piece to move and if this is a valid piece
-            move_piece = input("Select a worker to move\n")
-            if move_piece not in ['A', 'B', 'Y', 'Z']:
-                self.observer.update("Not a valid worker")
-                continue
-            if not self.check_if_own_piece(move_piece):
-                self.observer.update("That is not your worker")
-                continue
-            move_piece = self._return_piece(move_piece)
-            if move_piece.enumerate_all_moves(board) == []:
-                self.observer.update("That worker cannot move")
-                continue
-            valid_worker = True
-        
-        valid_move = False
-        while not valid_move:
-            ## Takes input about which direction to move and check if it is valid
-            move_direction = input("Select a direction to move (n, ne, e, se, s, sw, w, nw)\n")
-            if move_direction not in self.directions:
-                self.observer.update("Not a valid direction")
-                continue
-            if not move_piece.check_if_can_move(move_direction, board):
-                self.observer.update(f"Cannot move {move_direction}")
-                continue
-
-            ## Execute the move
-            move_piece.move(move_direction, board)
-            valid_move = True
-
-        valid_build = False
-        while not valid_build:
-            ## Takes input about which direction to build and check if it is valid
-            build_direction = input("Select a direction to build (n, ne, e, se, s, sw, w, nw)\n")
-            if build_direction not in self.directions:
-                self.observer.update("Not a valid direction")
-                continue
-            if not move_piece.check_if_can_build(build_direction, board):
-                self.observer.update(f"Cannot build {build_direction}")
-                continue
-            move_piece.build(build_direction, board)
-            valid_build = True
-        
-        if self.show_score:
-            self.observer.update(f"{move_piece},{move_direction},{build_direction} {self.calculate_move_score(board, opponent)[0]}")
-        else:
-            self.observer.update(f"{move_piece},{move_direction},{build_direction}")
-        
-        history.add_turn(turn, move_piece, move_direction, build_direction)
 
 class RandomComputerPlayer(Player):
     """
@@ -162,7 +103,7 @@ class RandomComputerPlayer(Player):
         super().__init__(color, show_score)
         self.type = 'random'
 
-    def player_turn(self, board, opponent, history, turn):
+    def player_move(self, board, opponent):
         valid_move = False
         while not valid_move:
             ## Randomly select a piece to move
@@ -172,20 +113,16 @@ class RandomComputerPlayer(Player):
             move_direction = random.choice(move_piece.enumerate_all_moves(board))
             move_piece.move(move_direction, board)
             valid_move = True
+        return move_piece, move_direction
 
+    def player_build(self, board, move_piece):
         valid_build = False
         while not valid_build:
             ## Randomly select a direction to build
             build_direction = random.choice(move_piece.enumerate_all_builds(board))
             move_piece.build(build_direction, board)
             valid_build = True
-
-        if self.show_score:
-            self.observer.update(f"{move_piece},{move_direction},{build_direction} {self.calculate_move_score(board, opponent)[0]}")
-        else:
-            self.observer.update(f"{move_piece},{move_direction},{build_direction}")
-
-        history.add_turn(turn, move_piece, move_direction, build_direction)
+        return build_direction
 
 class HeuristicComputerPlayer(Player):
     """
@@ -203,7 +140,7 @@ class HeuristicComputerPlayer(Player):
         super().__init__(color, show_score)
         self.type = 'heuristic'
     
-    def player_turn(self, board, opponent, history, turn):
+    def player_move(self, board, opponent):
         """
         The Heuristic Computer Player will move the piece to a direction
             1. Place it on the third level if possible
@@ -227,16 +164,10 @@ class HeuristicComputerPlayer(Player):
         move_scores.sort(key=lambda x: x[2], reverse=True)
         piece, move_direction, _ = move_scores[0]
         piece.move(move_direction, board)
-                    
-        ## Randomly build in any direction
+        return piece, move_direction
+
+    def player_build(self, board, piece):
         build_direction = random.choice(piece.enumerate_all_builds(board))
         piece.build(build_direction, board)
-
-        if self.show_score:
-            self.observer.update(f"{piece},{move_direction},{build_direction} {self.calculate_move_score(board, opponent)[0]}")
-        else:
-            self.observer.update(f"{piece},{move_direction},{build_direction}")
-
-        history.add_turn(turn, piece, move_direction, build_direction)
-
+        return build_direction
     

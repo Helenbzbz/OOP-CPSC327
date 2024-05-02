@@ -84,7 +84,7 @@ class Piece:
             if self.check_if_can_build(direction, board):
                 directions.append(direction)
         return directions
-    
+
     def move(self, direction, board):
         """
         Execute the move
